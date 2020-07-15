@@ -52,8 +52,10 @@ PS C:\> Merge-File -InputFile .\Source\Classes\classes.json
       $files = $()
 
       foreach ($file in $fileOrder.files) {
-         foreach ($item in $(Get-ChildItem -Filter $file)) {
-            $files += , (Resolve-Path $item.FullName)
+         if (Test-Path $file) {
+            foreach ($item in $(Get-ChildItem -Filter $file)) {
+               $files += , (Resolve-Path $item.FullName)
+            }
          }
       }
 
