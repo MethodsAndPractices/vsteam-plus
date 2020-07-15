@@ -27,7 +27,7 @@ PS C:\> Split-File -InputFile .\Source\formats\builds.format.ps1xml
       $finalXml = '<?xml version="1.0" encoding="utf-8" ?><Configuration><ViewDefinitions>'
       $finalXml += $view.OuterXml
       $finalXml += '</ViewDefinitions></Configuration>'
-      
+
       $output = Join-Path . "$($view.Name).ps1xml"
       # This makes sure the file is there and empty.
       # If the file already exisit it will be overwritten.
