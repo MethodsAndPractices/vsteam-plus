@@ -133,7 +133,7 @@ if (Test-Path "./Source/Public") {
 Write-Output "Publish complete to $output"
 
 # run the unit tests with Pester
-if ($runTests.IsPresent) {
+if ($runTests.IsPresent -and (Test-Path '.\unit')) {
    Import-Pester
 
    $pesterArgs = [PesterConfiguration]::Default
