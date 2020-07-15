@@ -58,7 +58,7 @@ jobs:
                   Get-PSRepository
 
             - task: PowerShell@2
-              displayName: 'Install VSTeam Module'
+              displayName: 'Install vsteam-plus Module'
               inputs:
                 targetType: 'inline'
                 script: |
@@ -73,7 +73,7 @@ jobs:
 
                   Get-PSRepository
 
-                  Install-Module -Name VSTeam -Repository $n -Credential $creds -MaximumVersion $b -MinimumVersion $b -Force -Scope CurrentUser -Verbose
+                  Install-Module -Name vsteam-plus -Repository $n -Credential $creds -MaximumVersion $b -MinimumVersion $b -Force -Scope CurrentUser -Verbose
                 workingDirectory: '$(Pipeline.Workspace)/Test'
 
             - task: PowerShell@2
@@ -94,7 +94,7 @@ jobs:
                   } elseif('${{parameters['apiVersion']}}' -eq 'VSTS') {
                     $env:PAT='$(VSTSPAT)'
                   }
-                  Import-Module VSTeam
+                  Import-Module vsteam-plus
                   # This loads [PesterConfiguration] into scope
                   Import-Module Pester
                   $pesterArgs = [PesterConfiguration]::Default
