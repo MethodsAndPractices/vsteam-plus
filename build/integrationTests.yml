@@ -87,7 +87,7 @@ jobs:
               inputs:
                 targetType: 'inline'
                 script: |
-                  if(Test-Path './Test/integration') {
+                  if((Test-Path './Test/integration') -and (Get-ChildItem './Test/integration')) {
                     if('${{parameters['apiVersion']}}' -eq 'TFS2017') {
                       $env:PAT='$(2017PAT)'
                     } elseif('${{parameters['apiVersion']}}' -eq 'TFS2018') {
