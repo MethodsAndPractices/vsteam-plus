@@ -120,13 +120,15 @@ Write-Output 'Publishing about help files'
 Copy-Item -Path ./Source/en-US -Destination "$output/" -Recurse -Force
 Copy-Item -Path "./Source/$name.psm1" -Destination "$output/$name.psm1" -Force
 
+$newValue = "'*'"
+
 if (Test-Path "./Source/Public") {
    Write-Output 'Updating Functions To Export'
    $newValue = ((Get-ChildItem -Path "./Source/Public" -Filter '*.ps1').BaseName |
       ForEach-Object -Process { Write-Output "'$_'" }) -join ','
 }
 
-(Get-Content "./Source/$name.psd1") -Replace ("FunctionsToExport.+", "FunctionsToExport = ($newValue)") | Set-Content "$output/$name.psd1"
+(Get-Content "./Source/$name.psd1") -Replace ("FunctionsToExport.+", "FunctionsToExport = @($newValue)") | Set-Content "$output/$name.psd1"
 
 Write-Output "Publish complete to $output"
 
