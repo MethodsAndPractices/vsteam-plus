@@ -52,6 +52,7 @@ stages:
         script: 'Install-Module -Name PSScriptAnalyzer -Repository PSGallery -Force -Scope CurrentUser -Verbose'
 
     - task: PowerShell@2
+      enabled: false
       displayName: 'Run Static Code Analysis'
       inputs:
         targetType: 'inline'
