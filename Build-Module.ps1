@@ -52,7 +52,7 @@ param(
 if (-not $name) {
    $name = (get-item .).Name 
 
-   Write-Output "Defaulting to $name, pass -name to override"
+   Write-Output "Defaulting to '$name', pass -name to override"
 }
 
 function Import-Pester {

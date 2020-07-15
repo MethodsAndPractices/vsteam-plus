@@ -39,7 +39,6 @@ PS C:\> Merge-File -InputFile .\Source\Classes\classes.json
    Write-Verbose "Full Path: $fullPath"
 
    $fileOrder = Get-Content $fullPath -Raw | ConvertFrom-Json
-   Write-Output "Processing: $($fileOrder.fileType)"
 
    $workingDir = Split-Path $fullPath
    Write-Verbose "Working Directory: $workingDir"
@@ -63,7 +62,7 @@ PS C:\> Merge-File -InputFile .\Source\Classes\classes.json
       # This makes sure the file is there and empty.
       # If the file already exisit it will be overwritten.
       $null = New-Item -ItemType file -Path $output -Force
-      Write-Output "Creating: $output"
+      Write-Output "Processing: $($fileOrder.fileType) => $($fileOrder.outputFile)"
 
       switch ($fileOrder.fileType) {
          'formats' {
@@ -206,7 +205,7 @@ function Merge-Class {
 
             # Remove all trailing whitespace
             $newFileContents = ($newFileContents -replace ' +$', '')
-         
+
             # This not only removes the comment but any whitespace before it.
             $newFileContents = ($newFileContents -replace ' +#.+', '')
             foreach ($line in $newFileContents) {

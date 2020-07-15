@@ -1,4 +1,4 @@
-Write-Output 'Clearing old files'
+Write-Verbose 'Clearing old files'
 
 if ((Test-Path .\docs) -eq $false) {
    # Notice that I'm assigning the result of New-Item to $null,
@@ -8,7 +8,7 @@ if ((Test-Path .\docs) -eq $false) {
 
 Get-ChildItem .\docs | Remove-Item
 
-Write-Output 'Merging Markdown files'
+Write-Verbose 'Merging Markdown files'
 
 if (-not (Get-Module Trackyon.Markdown -ListAvailable)) {
    Install-Module Trackyon.Markdown -Scope CurrentUser -Force
@@ -16,7 +16,7 @@ if (-not (Get-Module Trackyon.Markdown -ListAvailable)) {
 
 Merge-Markdown -InPath "$PSScriptRoot\.docs" -OutPath "$PSScriptRoot\docs"
 
-Write-Output 'Creating new file'
+Write-Verbose 'Creating new file'
 
 if (-not (Get-Module platyPS -ListAvailable)) {
    Install-Module platyPS -Scope CurrentUser -Force
