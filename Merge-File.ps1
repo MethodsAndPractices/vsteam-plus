@@ -190,9 +190,9 @@ function Merge-Class {
             $fileContents = Get-Content $file
 
             # Find all the usings and save them
-            $matches = $fileContents | Select-String '^\s*using\s+\w+'
+            $usings = $fileContents | Select-String '^\s*using\s+\w+'
 
-            ForEach ($m in $matches) {
+            ForEach ($m in $usings) {
                Write-Verbose "Found $($m.Line)"
 
                # Don't add duplicate usings

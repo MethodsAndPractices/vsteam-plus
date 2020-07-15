@@ -87,33 +87,36 @@ jobs:
               inputs:
                 targetType: 'inline'
                 script: |
-                  if('${{parameters['apiVersion']}}' -eq 'TFS2017') {
-                    $env:PAT='$(2017PAT)'
-                  } elseif('${{parameters['apiVersion']}}' -eq 'TFS2018') {
-                    $env:PAT='$(2018PAT)'
-                  } elseif('${{parameters['apiVersion']}}' -eq 'VSTS') {
-                    $env:PAT='$(VSTSPAT)'
+                  if(Test-Path './Test/integration') {
+                    if('${{parameters['apiVersion']}}' -eq 'TFS2017') {
+                      $env:PAT='$(2017PAT)'
+                    } elseif('${{parameters['apiVersion']}}' -eq 'TFS2018') {
+                      $env:PAT='$(2018PAT)'
+                    } elseif('${{parameters['apiVersion']}}' -eq 'VSTS') {
+                      $env:PAT='$(VSTSPAT)'
+                    }
+                    Import-Module vsteam-plus
+                    # This loads [PesterConfiguration] into scope
+                    Import-Module Pester
+                    $pesterArgs = [PesterConfiguration]::Default
+                    $pesterArgs.Run.Exit = $true
+                    $pesterArgs.Run.PassThru = $true
+                    $pesterArgs.Output.Verbosity = "Detailed"
+                    $pesterArgs.TestResult.Enabled = $true
+                    $pesterArgs.TestResult.OutputPath = 'test-results.xml'
+                    $pesterArgs.Run.Path = './Test/integration'
+              
+                    Invoke-Pester -Configuration $pesterArgs
                   }
-                  Import-Module vsteam-plus
-                  # This loads [PesterConfiguration] into scope
-                  Import-Module Pester
-                  $pesterArgs = [PesterConfiguration]::Default
-                  $pesterArgs.Run.Exit = $true
-                  $pesterArgs.Run.PassThru = $true
-                  $pesterArgs.Output.Verbosity = "Detailed"
-                  $pesterArgs.TestResult.Enabled = $true
-                  $pesterArgs.TestResult.OutputPath = 'test-results.xml'
-            
-                  Invoke-Pester -Configuration $pesterArgs
                 failOnStderr: true
-                workingDirectory: '$(Pipeline.Workspace)/Test/integration'
+                workingDirectory: '$(Pipeline.Workspace)'
 
             - task: PublishTestResults@2
               displayName: 'Publish Test Results'
               inputs:
                 testResultsFormat: NUnit
                 testResultsFiles: '**/test-results.xml'
-                searchFolder: '$(Pipeline.Workspace)/Test/integration'
+                searchFolder: '$(Pipeline.Workspace)'
                 testRunTitle: '${{ parameters.os }} Tests'
               continueOnError: true
               condition: succeededOrFailed()
