@@ -39,7 +39,7 @@ PS C:\> Merge-File -InputFile .\Source\Classes\classes.json
    Write-Verbose "Full Path: $fullPath"
 
    $fileOrder = Get-Content $fullPath -Raw | ConvertFrom-Json
-   Write-Output "Processing: $($fileOrder.fileType) in $fullPath"
+   Write-Output "Processing: $($fileOrder.fileType)"
 
    $workingDir = Split-Path $fullPath
    Write-Verbose "Working Directory: $workingDir"
