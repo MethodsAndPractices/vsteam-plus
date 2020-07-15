@@ -9,9 +9,9 @@ steps:
   inputs:
     targetType: 'inline'
     ${{ if eq(parameters.buildHelp, 'false') }}:
-      script: '.\Build-Module.ps1 -installDep'
+      script: '.\Build-Module.ps1 -Name 'vsteam-plus' -installDep'
     ${{ if eq(parameters.buildHelp, 'true') }}:
-      script: '.\Build-Module.ps1 -installDep -buildHelp'
+      script: '.\Build-Module.ps1 -Name 'vsteam-plus' -installDep -buildHelp'
 
 - task: PowerShell@2
   displayName: 'Install Pester'
